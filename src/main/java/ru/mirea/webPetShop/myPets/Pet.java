@@ -1,4 +1,4 @@
-package lab1.lab1;
+package ru.mirea.webPetShop.myPets;
 
 class Pet {
     int id;

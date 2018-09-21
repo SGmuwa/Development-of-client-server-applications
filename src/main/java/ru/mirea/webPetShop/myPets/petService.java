@@ -1,4 +1,4 @@
-package lab1.lab1;
+package ru.mirea.webPetShop.myPets;
 
 import org.springframework.stereotype.Service;
 
