@@ -9,9 +9,8 @@ import java.util.List;
 public class petService {
     List<Pet> pets() {
         List<Pet> pets = new LinkedList<Pet>();
-        Pet cat = new Pet(3, 4, "chat");
-        pets.add(cat);
-
+        pets.add(new Pet(0, 5, "cat"));
+        pets.add(new Pet(1, 10, "dog"));
         return pets;
     }
 }
