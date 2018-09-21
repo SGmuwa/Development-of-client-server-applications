@@ -7,8 +7,7 @@ import java.util.List;
 
 @Service
 public class petService {
-    public List<Pet> pets() {
-
+    List<Pet> pets() {
         List<Pet> pets = new LinkedList<Pet>();
         Pet cat = new Pet(3, 4, "chat");
         pets.add(cat);

@@ -11,12 +11,26 @@ import java.util.List;
 @Controller
 public class petController {
 
-    @Autowired
-    private petService p;
+    private final petService p;
 
-    @RequestMapping(value="pet", method=RequestMethod.GET)
+    public petController(petService p) {
+        this.p = p;
+    }
+
+    @Autowired
+    public petController() {
+        this.p = new petService();
+    }
+
+    @RequestMapping(value="pet", method = RequestMethod.GET)
     @ResponseBody
     public List<Pet> pets() {
         return p.pets();
+    }
+
+    @RequestMapping(value="helloWorld", method = RequestMethod.GET)
+    @ResponseBody
+    public String helloWorld() {
+        return "helloWorld";
     }
 }

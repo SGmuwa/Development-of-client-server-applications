@@ -1,9 +1,9 @@
 package ru.mirea.webPetShop.myPets;
 
 class Pet {
-    int id;
-    int count;
-    String type;
+    private int id;
+    protected int count;
+    protected String type;
 
     public int getId() {
         return id;
