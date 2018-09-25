@@ -7,14 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-public class petService {
+public class PetService {
 
     private final String dbURL = "jdbc:sqlserver://localhost\\sqlexpress";
     private final String user = "sa";
     private final String pass = "secret";
     private Connection conn;
 
-    public petService() throws SQLException {
+    public PetService() throws SQLException {
         DriverManager.registerDriver(new com.microsoft.sqlserver.jdbc.SQLServerDriver());
         conn = null;
         initializationDB();

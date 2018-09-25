@@ -9,17 +9,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-public class petController {
+public class PetController {
 
-    private final petService p;
-
-    public petController(petService p) {
-        this.p = p;
-    }
+    private final PetService p;
 
     @Autowired
-    public petController() {
-        this.p = new petService();
+    public PetController(PetService p) {
+        this.p = p;
     }
 
     @RequestMapping(value="pet", method = RequestMethod.GET)
