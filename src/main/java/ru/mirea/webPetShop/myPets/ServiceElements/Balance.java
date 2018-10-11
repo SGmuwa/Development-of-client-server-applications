@@ -6,6 +6,9 @@ public class Balance {
         this.penny = penny;
     }
 
+    /**
+     * Хранит количество копеек.
+     */
     private int penny;
 
     int getPenny() {

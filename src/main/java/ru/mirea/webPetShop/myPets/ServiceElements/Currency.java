@@ -13,4 +13,16 @@ public class Currency {
         this.nameFrom = nameFrom;
         this.nameTo = nameTo;
     }
+
+    public void setConvert(double convert) {
+        this.convert = convert;
+    }
+
+    public void setNameFrom(String nameFrom) {
+        this.nameFrom = nameFrom;
+    }
+
+    public void setNameTo(String nameTo) {
+        this.nameTo = nameTo;
+    }
 }
