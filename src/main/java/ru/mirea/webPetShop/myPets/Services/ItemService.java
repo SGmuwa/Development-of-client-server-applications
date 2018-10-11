@@ -66,5 +66,9 @@ public class ItemService {
         if(getItems(item.getId()) != null) return false;
         return items.add(item);
     }
+
+    public boolean removeItem(int id) {
+        return items.removeIf((it) -> it.getId() == id);
+    }
 }
 

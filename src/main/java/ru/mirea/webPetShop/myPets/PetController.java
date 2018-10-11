@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import ru.mirea.webPetShop.myPets.ServiceElements.Item;
 import ru.mirea.webPetShop.myPets.Services.ItemService;
 
 import java.util.List;
@@ -19,10 +20,34 @@ public class PetController {
         this.p = p;
     }
 
-    @RequestMapping(value="pet", method = RequestMethod.GET)
+    @RequestMapping(value="pets", method = RequestMethod.GET)
     @ResponseBody
-    public List<Pet> pets() {
-        return p.pets();
+    public List<Item> getPets() {
+        return p.getPets();
+    }
+
+    @RequestMapping(value="pets/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Item getPets(int id) {
+        return p.getPets(id);
+    }
+
+    @RequestMapping(value="items/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public boolean removeItems(int id) {
+        return p.removeItem(id);
+    }
+
+    @RequestMapping(value="items/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public boolean addItem(Item elm) {
+        return p.addItem(elm);
+    }
+
+    @RequestMapping(value="items", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Item> getItems() {
+        return p.getItems();
     }
 
     @RequestMapping(value="helloWorld", method = RequestMethod.GET)
