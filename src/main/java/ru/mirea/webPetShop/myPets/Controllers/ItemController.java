@@ -1,4 +1,4 @@
-package ru.mirea.webPetShop.myPets;
+package ru.mirea.webPetShop.myPets.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +11,12 @@ import ru.mirea.webPetShop.myPets.Services.ItemService;
 import java.util.List;
 
 @Controller
-public class PetController {
+public class ItemController {
 
     private final ItemService p;
 
     @Autowired
-    public PetController(ItemService p) {
+    public ItemController(ItemService p) {
         this.p = p;
     }
 
@@ -28,13 +28,13 @@ public class PetController {
 
     @RequestMapping(value="pets/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Item getPets(int id) {
+    public Item getPets(long id) {
         return p.getPets(id);
     }
 
     @RequestMapping(value="items/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public boolean removeItems(int id) {
+    public boolean removeItems(long id) {
         return p.removeItem(id);
     }
 

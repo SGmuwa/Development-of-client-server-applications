@@ -2,16 +2,24 @@ package ru.mirea.webPetShop.myPets.ServiceElements;
 
 public class Balance {
 
-    public Balance(int penny) {
+    public Balance() {
+        this.penny = 0;
+    }
+
+    public Balance(long penny) {
         this.penny = penny;
     }
 
     /**
      * Хранит количество копеек.
      */
-    private int penny;
+    private long penny;
 
-    int getPenny() {
+    public long getPenny() {
         return penny;
+    }
+
+    public void setPenny(long l) {
+        penny = l;
     }
 }

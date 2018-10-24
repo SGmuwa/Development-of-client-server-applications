@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mirea.webPetShop.myPets.ServiceElements.Item;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +14,7 @@ public class ItemService {
 
     private List<Item> items;
 
+    @Autowired
     public ItemService() {
         this.items = new LinkedList<>();
     }
@@ -23,7 +23,7 @@ public class ItemService {
         return items;
     }
 
-    public Item getItems(int id) {
+    public Item getItems(long id) {
         for(Item it : getItems())
             if(it.getId() == id)
                 return it;
@@ -38,7 +38,7 @@ public class ItemService {
         return out;
     }
 
-    public Item getItems(int id, Item.Types type) {
+    public Item getItems(long id, Item.Types type) {
         Item out = getItems(id);
         if(out == null) return null;
         if(out.getType().equals(type))
@@ -54,11 +54,11 @@ public class ItemService {
         return getItems(Stuff);
     }
 
-    public Item getPets(int id) {
+    public Item getPets(long id) {
         return getItems(id, Pet);
     }
 
-    public Item getStuffs(int id) {
+    public Item getStuffs(long id) {
         return getItems(id, Stuff);
     }
 
@@ -67,7 +67,7 @@ public class ItemService {
         return items.add(item);
     }
 
-    public boolean removeItem(int id) {
+    public boolean removeItem(long id) {
         return items.removeIf((it) -> it.getId() == id);
     }
 }
