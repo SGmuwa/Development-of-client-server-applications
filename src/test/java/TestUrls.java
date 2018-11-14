@@ -31,7 +31,7 @@ public class TestUrls {
             con.setRequestMethod("GET");
 
             //add request header
-            con.setRequestProperty("User-Agent", USER_AGENT);
+            con.setRequestProperty("Doer-Agent", USER_AGENT);
 
             //int responseCode = con.getResponseCode();
 
