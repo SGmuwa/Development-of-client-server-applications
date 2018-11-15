@@ -6,6 +6,15 @@ package ru.mirea.webPetShop.myPets.ServiceElements;
  */
 public class Doer {
 
+    public Doer(int id, Role role, Balance balance, Cart cart) {
+        this.id = id;
+        this.role = role;
+        this.balance = balance;
+        this.cart = cart;
+    }
+
+    protected int id;
+
     protected Role role;
 
     protected Balance balance;

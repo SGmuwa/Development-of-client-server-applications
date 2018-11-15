@@ -11,7 +11,6 @@ public class Cart implements List<CartElement> {
 
     public Cart(List<CartElement> cartElementList) {
         this.cartElementList = cartElementList;
-        java.sql.SQLData
 
     }
 
