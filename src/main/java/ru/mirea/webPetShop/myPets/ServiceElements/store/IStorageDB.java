@@ -12,21 +12,6 @@ import java.sql.SQLException;
  * @param <Element> Тип, который символизирует поля строки, включая ключ.
  * @param <Key> Тип, который символизирует ключ таблицы.
  */
-public abstract class IStorageDB<Element, Key> implements AutoCloseable, IStorage<Element, Key> {
+public interface IStorageDB<Element, Key> extends AutoCloseable, IStorage<Element, Key> {
 
-    protected final IKeyGetter<Key> keyGetter;
-    protected final IKeySetter<Key> keySetter;
-    protected final Connection connection;
-
-    protected <KeyGetter extends IKeyGetter<Key>, KeySetter extends IKeySetter<Key>>
-    IStorageDB(KeyGetter keyGetter, KeySetter keySetter, Connection connection) {
-        this.keyGetter = keyGetter;
-        this.keySetter = keySetter;
-        this.connection = connection;
-    }
-
-    @Override
-    public void close() throws SQLException {
-        connection.close();
-    }
 }
