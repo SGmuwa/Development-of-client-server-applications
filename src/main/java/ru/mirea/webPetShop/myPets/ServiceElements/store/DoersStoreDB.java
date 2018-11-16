@@ -73,15 +73,21 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
      * @param doer Элемент, который необходимо добавить.
      */
     @Override
-    public void addCompletely(Doer doer) {
-        throw new
+    public void addCompletely(Doer doer) throws SQLException {
+        try (final PreparedStatement statement = this.connection.prepareStatement("INSERT INTO users (id, role, balance, cart_id) values (?, ?, ?, ?)")) {
+            statement.setInt(4, user.getId());
+            statement.setString(2, user.getRole().name());
+            statement.setLong(3, user.getBalance().getPenny());
+            statement.setInt(4, user.getCart().getId());
+            statement.executeUpdate();
+        }
     }
 
     @Override
     public Doer get(Integer id) throws SQLException {
         try (final Statement statement = this.connection.createStatement();
              final ResultSet rs = statement.executeQuery("SELECT * FROM users")) {
-            while (rs.next()) {
+            if (rs.next()) {
                 return new Doer(
                         rs.getInt("id"),
                         Doer.Role.valueOf(rs.getString("role")),
@@ -93,7 +99,7 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
     }
 
     @Override
-    public void replace(Integer id, Doer user) throws Exception {
+    public void replace(Integer id, Doer user) throws SQLException {
         try(final PreparedStatement statement = this.connection
                 .prepareStatement("UPDATE users SET role = ?, balance = ?, cart_id = ? WHERE id = ?")) {
             statement.setString(1, user.getRole().name());
@@ -110,13 +116,29 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
      * @param newElement Элемент, который необходимо обновить.
      */
     @Override
-    public void update(Doer newElement) {
+    public void update(Doer newElement) throws SQLException {
         replace(newElement.getId(), newElement);
     }
 
     @Override
-    public void delete(Integer id) {
+    public void delete(Integer id, Doer user) throws SQLException {
+        try(final PreparedStatement statement = this.connection
+                .prepareStatement("DELETE users WHERE id = ?, role = ?, balance = ?, cart_id = ?")) {
+            statement.setInt(1, id);
+            statement.setString(2, user.getRole().name());
+            statement.setLong(3, user.getBalance().getPenny());
+            statement.setInt(4, user.getCart().getId());
+            statement.executeUpdate();
+        }
+    }
 
+    @Override
+    public void delete(Integer id) throws SQLException {
+        try(final PreparedStatement statement = this.connection
+                .prepareStatement("DELETE users WHERE id = ?")) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        }
     }
 
     /**

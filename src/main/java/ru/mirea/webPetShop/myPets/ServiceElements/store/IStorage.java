@@ -74,4 +74,13 @@ public interface IStorage<Element, Key> {
      * @throws Exception Элемент не найден или подключение разорвано.
      */
     void delete(final Key id) throws Exception;
+
+    /**
+     * Удаляет строку из БД по элементу и ключу.
+     * @param element Элемент записи.
+     * @param id Ключ записи.
+     *
+     * @throws Exception Элемент не найден или подключение разорвано.
+     */
+    void delete(final Key id, final Element element) throws Exception;
 }

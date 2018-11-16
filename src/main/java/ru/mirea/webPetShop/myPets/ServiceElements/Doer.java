@@ -1,16 +1,18 @@
 package ru.mirea.webPetShop.myPets.ServiceElements;
 
+import ru.mirea.webPetShop.myPets.ServiceElements.store.CartStoreDB;
+
 /**
  * Класс, который описывает деятеля системы.
  * Часто в других системах называется {@code User}.
  */
 public class Doer {
 
-    public Doer(int id, Role role, Balance balance, Cart cart) {
+    public Doer(int id, Role role, Balance balance, CartStoreDB cartStoreDB) {
         this.id = id;
         this.role = role;
         this.balance = balance;
-        this.cart = cart;
+        this.cart = cartStoreDB;
     }
 
     protected int id;
@@ -19,7 +21,7 @@ public class Doer {
 
     protected Balance balance;
 
-    protected Cart cart;
+    protected CartStoreDB cart;
 
     public Role getRole() {
         return role;
@@ -37,12 +39,16 @@ public class Doer {
         this.balance = balance;
     }
 
-    public Cart getCart() {
+    public CartStoreDB getCart() {
         return cart;
     }
 
-    public void setCart(Cart cart) {
+    public void setCart(CartStoreDB cart) {
         this.cart = cart;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     /**
