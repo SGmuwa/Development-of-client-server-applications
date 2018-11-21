@@ -2,6 +2,8 @@ package ru.mirea.webPetShop.myPets.ServiceElements.store;
 
 import jdk.javadoc.internal.doclets.formats.html.markup.HtmlAttr;
 import ru.mirea.webPetShop.myPets.ServiceElements.Balance;
+import ru.mirea.webPetShop.myPets.ServiceElements.Cart;
+import ru.mirea.webPetShop.myPets.ServiceElements.CartElement;
 import ru.mirea.webPetShop.myPets.ServiceElements.Doer;
 
 import java.io.Closeable;
@@ -14,9 +16,9 @@ import java.util.List;
 public class DoersStoreDB implements IStorageDB<Doer, Integer> {
 
     private Connection connection;
-    public final CartStoreDB cartDB;
+    private final IStorage<Cart, Integer> cartDB;
 
-    public DoersStoreDB(Connection connection, CartStoreDB cartDB) {
+    public DoersStoreDB(Connection connection, IStorage<Cart, Integer> cartDB) {
         setConnection(connection);
         this.cartDB = cartDB;
     }
@@ -30,7 +32,7 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
     }
 
     @Override
-    public Collection<Doer> values() {
+    public Collection<Doer> values() throws Exception {
         final List<Doer> users = new ArrayList<>();
         try (final Statement statement = this.connection.createStatement();
              final ResultSet rs = statement.executeQuery("SELECT * FROM users")) {
@@ -39,7 +41,7 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
                         rs.getInt("id"),
                         Doer.Role.valueOf(rs.getString("role")),
                         new Balance(rs.getLong("balance")),
-                        cartDB.get(rs.getInt("cart_id")))
+                        cartDB.get(rs.getInt("id")))
                 );
             }
         } catch (SQLException e) {
@@ -70,10 +72,10 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
      * Добавить таблицу данные с определённым ключом.
      * Поле Element.key учавствует в добавлении.
      *
-     * @param doer Элемент, который необходимо добавить.
+     * @param user Элемент, который необходимо добавить.
      */
     @Override
-    public void addCompletely(Doer doer) throws SQLException {
+    public void addCompletely(Doer user) throws SQLException {
         try (final PreparedStatement statement = this.connection.prepareStatement("INSERT INTO users (id, role, balance, cart_id) values (?, ?, ?, ?)")) {
             statement.setInt(4, user.getId());
             statement.setString(2, user.getRole().name());
@@ -84,7 +86,7 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
     }
 
     @Override
-    public Doer get(Integer id) throws SQLException {
+    public Doer get(Integer id) throws Exception {
         try (final Statement statement = this.connection.createStatement();
              final ResultSet rs = statement.executeQuery("SELECT * FROM users")) {
             if (rs.next()) {
@@ -92,7 +94,7 @@ public class DoersStoreDB implements IStorageDB<Doer, Integer> {
                         rs.getInt("id"),
                         Doer.Role.valueOf(rs.getString("role")),
                         new Balance(rs.getLong("balance")),
-                        cartDB.get(rs.getInt("cart_id")));
+                        cartDB.get(rs.getInt("id")));
             }
         }
         throw new IllegalStateException(String.format("User %s does not exists", id));

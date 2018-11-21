@@ -14,4 +14,6 @@ import java.sql.SQLException;
  */
 public interface IStorageDB<Element, Key> extends AutoCloseable, IStorage<Element, Key> {
 
+    void setConnection(Connection connection);
+
 }

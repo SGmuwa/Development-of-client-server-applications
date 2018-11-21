@@ -1,40 +1,19 @@
 package ru.mirea.webPetShop.myPets.ServiceElements.store;
 
 import ru.mirea.webPetShop.myPets.ServiceElements.Balance;
+import ru.mirea.webPetShop.myPets.ServiceElements.Cart;
 import ru.mirea.webPetShop.myPets.ServiceElements.CartElement;
 import ru.mirea.webPetShop.myPets.ServiceElements.Doer;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
-public class CartStoreDB implements IStorage<CartElement, Integer> {
+public class CartStoreDB implements IStorage<Cart, Integer> {
 
-    private int id;
-    private Doer user;
     private Connection connection;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Doer getUser() {
-        return user;
-    }
-
-    public void setUser(Doer user) {
-        this.user = user;
-    }
-
-    public CartStoreDB(int id, Doer user, Connection connection) {
-        this.id = id;
-        this.user = user;
+    public CartStoreDB(Connection connection) {
         this.connection = connection;
     }
 
@@ -45,8 +24,30 @@ public class CartStoreDB implements IStorage<CartElement, Integer> {
      * @throws SQLException Элемент не найден или подключение разорвано.
      */
     @Override
-    public Collection<CartElement> values() throws SQLException {
-        return null;
+    public Collection<Cart> values() throws SQLException {
+        ArrayList<CartElement> items = new ArrayList<>();
+        try (final Statement statement = this.connection.createStatement();
+             final ResultSet rs = statement.executeQuery("SELECT * FROM cartElements")) {
+            while (rs.next()) {
+                items.add(new Cart(
+                        rs.getInt("id"),
+                        rs.getInt("item_id")
+                ));
+            }
+        }
+    }
+
+    public ArrayList<Integer> keys() throws SQLException {
+        ArrayList<Integer> items = new ArrayList<>();
+        try (final Statement statement = this.connection.createStatement();
+             final ResultSet rs = statement.executeQuery("SELECT DISTINCT user_id FROM cartElements")) {
+            while (rs.next()) {
+                items.add(new Cart(
+                        rs.getInt("id"),
+                        rs.getInt("item_id")
+                ));
+            }
+        }
     }
 
     /**
@@ -58,7 +59,7 @@ public class CartStoreDB implements IStorage<CartElement, Integer> {
      * @throws SQLException Элемент не найден или подключение разорвано.
      */
     @Override
-    public Integer add(CartElement cartElement) throws SQLException {
+    public Integer add(Cart cartElement) throws SQLException {
         return null;
     }
 
@@ -70,7 +71,7 @@ public class CartStoreDB implements IStorage<CartElement, Integer> {
      * @throws SQLException Элемент не найден или подключение разорвано.
      */
     @Override
-    public void addCompletely(CartElement cartElement) throws SQLException {
+    public void addCompletely(Cart cartElement) throws SQLException {
 
     }
 
@@ -82,9 +83,11 @@ public class CartStoreDB implements IStorage<CartElement, Integer> {
      * @throws SQLException Элемент не найден или подключение разорвано.
      */
     @Override
-    public CartElement get(Integer id) throws SQLException {
-        try (final Statement statement = this.connection.createStatement();
-             final ResultSet rs = statement.executeQuery("SELECT * FROM carts")) {
+    public Cart get(Integer id) throws SQLException {
+        try (final PreparedStatement statement =
+                     this.connection.prepareStatement("SELECT * FROM cartElements WHERE id = ?")) {
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 return new CartElement(
                         rs.getInt("id"),
@@ -104,7 +107,7 @@ public class CartStoreDB implements IStorage<CartElement, Integer> {
      * @throws SQLException Элемент не найден или подключение разорвано.
      */
     @Override
-    public void replace(Integer id, CartElement newElement) throws SQLException {
+    public void replace(Integer id, Cart newElement) throws SQLException {
 
     }
 
@@ -115,7 +118,7 @@ public class CartStoreDB implements IStorage<CartElement, Integer> {
      * @throws SQLException Элемент не найден или подключение разорвано.
      */
     @Override
-    public void update(CartElement newElement) throws SQLException {
+    public void update(Cart newElement) throws SQLException {
 
     }
 
@@ -138,7 +141,7 @@ public class CartStoreDB implements IStorage<CartElement, Integer> {
      * @throws SQLException Элемент не найден или подключение разорвано.
      */
     @Override
-    public void delete(Integer id, CartElement cartElement) throws SQLException {
+    public void delete(Integer id, Cart cartElement) throws SQLException {
 
     }
 }
